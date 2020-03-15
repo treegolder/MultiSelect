@@ -16,6 +16,8 @@ public class Teacher {
     @Id
     private String id;
     private String password;
+    //可选择总人数
+    private int sum;
 
     @OneToMany(mappedBy = "teacher")
     private List<Student> student;

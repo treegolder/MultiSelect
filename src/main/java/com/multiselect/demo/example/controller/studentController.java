@@ -23,7 +23,7 @@ public class studentController {
     public String login(@RequestParam("sno")String sno, HttpSession session){
      String flag = ss.login(sno,session);
      if (flag.equals("1")){
-         return "success";
+         return "tpage";
      }else{
          return "index";
      }

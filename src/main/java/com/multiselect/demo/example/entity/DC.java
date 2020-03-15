@@ -23,4 +23,6 @@ public class DC {
     //权重
     private double weight;
 
+    private double threshold;
+
 }

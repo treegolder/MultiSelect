@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+success
+<br>
+<div>
+<p th:text="'hello, ' + ${session.teacher.id} + '!'"></p></div>
+
+
+<!--<p th:text="'hello, ' +${session.student.name}"/>-->
+<div>
+    <form action="/tea/setweight" method="post">
+        <select name="id">
+            <option th:each="d:${directionList}"
+                    th:value="${d.id}"
+                    th:text="${d.name}">
+            </option>
+        </select>
+
+        <select name="cno">
+            <option th:each="c:${courseList}"
+                    th:value="${c.cno}"
+                    th:text="${c.cname}">
+            </option>
+        </select>
+
+        添加权重 <input type="text" th:name="weight">
+
+        <button type="submit" >添加</button>
+    </form>
+</div>
+
+<div>
+    <form action="/tea/updatesum" method="post">
+        设定人员上限 <input type="text" name="sum"></input>
+        <br>
+        <button type="submit">确定</button>
+    </form>
+
+</div>
+
+<div>
+    <form action="/tea/updatethreshold" method="post">
+        <select name="id">
+            <option th:each="d:${directionList}"
+                    th:value="${d.id}"
+                    th:text="${d.name}">
+            </option>
+        </select>
+       设定最低分 <input type="text" name="threshold">
+        <button type="submit">确定</button>
+    </form>
+
+</div>
+
+</body>
+</html>
