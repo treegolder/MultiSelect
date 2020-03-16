@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DCRepository extends BaseRepository<DC,String> {
 
-    @Modifying
-    @Query("update DC dc set dc.threshold=:threshold where dc.id=:id")
-    int updateThreshold(@Param("threshold") double threshold, @Param("id") int id );
+
 }

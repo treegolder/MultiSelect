@@ -85,6 +85,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void updateThreshold(double threshold, int id) {
-        dcr.updateThreshold(threshold, id);
+        dr.updateThreshold(threshold, id);
     }
 }

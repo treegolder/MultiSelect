@@ -19,4 +19,6 @@ public class Direction {
 
     @OneToMany(mappedBy = "direction")
     private List<DC> dc;
+
+    private double threshold;
 }
