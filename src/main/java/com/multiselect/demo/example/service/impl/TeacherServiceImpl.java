@@ -31,42 +31,35 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private DCRepository dcr;
     @Override
-    public String login(String id, String password, HttpSession session) {
+    public Teacher login(String id) {
        Teacher teacher = tr.findById(id).orElse(null);
-       if (teacher != null) {
-           if (teacher.getPassword().equals(password)){
-              session.setAttribute("teacher", teacher);
-               return "1";//登陆成功
-           }else{
-               return "0";//登陆失败
-           }
-       }else {
-           return "0";//登陆失败
-       }
+
+      return teacher;
     }
 
-    /**
-     * 获取全部方向
-     * @return
-     */
+
     @Override
     public  List<Direction> DireList() {
        List<Direction> list = dr.findAll();
        return list;
     }
 
-    /**
-     * 获取全部课程
-     * @return
-     */
+
     @Override
     public List<Course> CourList() {
         List<Course> list = cr.findAll();
         return list;
     }
 
+    /**
+     * 添加权重
+     * 此方法待修改
+     * @param id
+     * @param cno
+     * @param weight
+     */
     @Override
-    public void setWeight(int id,int cno,double weight) {
+    public void updateWeight(int id,int cno,double weight) {
         Direction direction = dr.findById(id).orElse(null);
         Course course = cr.findById(cno).orElse(null);
         DC dc = new DC();
@@ -77,11 +70,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     }
 
+
     @Override
-    public void updateSum(int sum, HttpSession session) {
-       Teacher teacher = (Teacher) session.getAttribute("teacher");
+    public void updateSum(int sum, Teacher teacher) {
         tr.updateSum(teacher.getId(),sum);
     }
+
 
     @Override
     public void updateThreshold(double threshold, int id) {

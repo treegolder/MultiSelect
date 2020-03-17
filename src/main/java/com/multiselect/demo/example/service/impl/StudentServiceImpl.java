@@ -12,13 +12,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     StudentRepository sr;
     @Override
-    public String login(String sno, HttpSession session) {
+    public Student login(String sno) {
       Student student = sr.findById(sno).orElse(null);
-      if (student != null){
-          session.setAttribute("student",student);
-          return "1";
-      }else{
-          return "0";
-      }
+
+      return student;
     }
 }

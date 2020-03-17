@@ -1,5 +1,6 @@
 package com.multiselect.demo.example.controller;
 
+import com.multiselect.demo.example.entity.Student;
 import com.multiselect.demo.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,14 @@ public class studentController {
 
     @PostMapping ("/login")
     public String login(@RequestParam("sno")String sno, HttpSession session){
-     String flag = ss.login(sno,session);
-     if (flag.equals("1")){
-         return "tpage";
-     }else{
-         return "index";
-     }
+    Student student = ss.login(sno);
+    if (student != null){
+          session.setAttribute("student",student);
+          return "tpage";
+      }else{
+          return "index";
+      }
+
 
     }
 }

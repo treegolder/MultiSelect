@@ -4,18 +4,18 @@ import com.multiselect.demo.example.entity.Course;
 import com.multiselect.demo.example.entity.Direction;
 import com.multiselect.demo.example.entity.Teacher;
 import com.multiselect.demo.example.service.TeacherService;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-@Slf4j
+
 @Controller
 @RequestMapping("/tea")
 public class teacherController {
@@ -31,14 +31,19 @@ public class teacherController {
     @PostMapping("/login")
     public String login(@RequestParam("id") String id, @RequestParam("password") String psd, HttpSession session) {
 
-        String flag = ts.login(id,psd,session);
+        Teacher teacher = ts.login(id);
 
-       if (flag.equals("1")){
-
-           return "redirect:/tea/load";
-       }else{
-           return "index";
+         if (teacher != null) {
+           if (teacher.getPassword().equals(psd)){
+              session.setAttribute("teacher", teacher);
+               return "redirect:/tea/load";//登陆成功
+           }else{
+               return "index";//登陆失败
+           }
+       }else {
+           return "index";//登陆失败
        }
+
     }
 
     @RequestMapping("/load")
@@ -53,7 +58,7 @@ public class teacherController {
 
     @PostMapping("/setweight")
     public String setWeight(int id,int cno,double weight){
-        ts.setWeight(id,cno,weight);
+        ts.updateWeight(id,cno,weight);
         //String flag = "1";
 
         return "redirect:/tea/load";
@@ -68,8 +73,9 @@ public class teacherController {
      */
     @PostMapping ("/updatesum")
     public String setSum(@RequestParam("sum") int sum,HttpSession session){
+     Teacher teacher = (Teacher) session.getAttribute("teacher");
 
-        ts.updateSum(sum, session);
+        ts.updateSum(sum, teacher);
 
         return "redirect:/tea/load";
     }
