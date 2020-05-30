@@ -11,7 +11,9 @@ import java.util.Optional;
 @Repository
 public interface TeacherRepository extends BaseRepository<Teacher,String> {
 
-    @Modifying
+/*    @Modifying
     @Query("update Teacher t set t.sum=:newsum where t.id=:id")
-    int updateSum(@Param("id") String id, @Param("newsum") int sum);
+    int updateSum(@Param("id") String id, @Param("newsum") int sum);*/
+    @Query("from Teacher t where t.id=:tid")
+    Teacher find(@Param("tid") int tid);
 }

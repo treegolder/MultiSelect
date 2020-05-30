@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,18 @@ public class Direction {
     private String name;
 
     @OneToMany(mappedBy = "direction")
-    private List<DC> dc;
+    private List<Course> courses;
+    @ManyToOne
+    private Teacher teacher;
 
-    private double threshold;
+    private int threshold;
+
+    @Column(columnDefinition = "timestamp default current_timestamp",
+            insertable = false,
+            updatable = false)
+    private LocalDateTime insertTime;
+    @Column(columnDefinition = "timestamp default current_timestamp",
+            insertable = false,
+            updatable = false)
+    private LocalDateTime updateTime;
 }

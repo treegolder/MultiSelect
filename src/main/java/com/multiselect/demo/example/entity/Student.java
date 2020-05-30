@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -13,18 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 public class Student {
     @Id
-    @Column(unique = true)
-    private String sno;
-    private String name;
-    private String sex;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    @MapsId
+    private User user; //依靠单向@OneToOne和@MapsId，与父表共享主键
+
+    private String direction;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
+    private List<SC> sc;
 
     @ManyToOne
     private Teacher teacher;
 
-    /**
-     * 学生和课是many to many
-     */
-    @OneToMany(mappedBy = "student")
-    private List<SC> sc;
+    @Column(columnDefinition = "timestamp default current_timestamp",
+            insertable = false,
+            updatable = false)
+    private LocalDateTime insertTime;
 
 }

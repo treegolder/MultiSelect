@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @NoRepositoryBean
 public interface BaseRepository<T,ID> extends JpaRepository<T,ID> {
-    void refresh(T t);
+    T refresh(T t);
 }

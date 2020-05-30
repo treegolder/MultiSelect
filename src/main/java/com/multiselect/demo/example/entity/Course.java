@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -13,12 +14,30 @@ import java.util.List;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cno;
-    private String Cname;
+    private int id;
 
-    @OneToMany(mappedBy = "course")
-    private List<SC> sc;
+    private String name;
 
-    @OneToMany(mappedBy = "course")
-    private List<DC> dc;
+    private int grade;
+    private double weight;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    private List<SC> studentCourses;
+
+    @ManyToOne
+    private Direction direction;
+    @ManyToOne
+    private Teacher teacher;
+
+    @Column(columnDefinition = "timestamp default current_timestamp",
+            insertable = false,
+            updatable = false)
+    private LocalDateTime insertTime;
+
+    @Column(columnDefinition = "timestamp default current_timestamp",
+            insertable = false,
+            updatable = false)
+    private LocalDateTime updateTime;
+
+
 }

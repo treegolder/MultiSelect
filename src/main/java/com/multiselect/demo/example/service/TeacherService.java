@@ -3,45 +3,42 @@ package com.multiselect.demo.example.service;
 import com.multiselect.demo.example.entity.Course;
 import com.multiselect.demo.example.entity.Direction;
 import com.multiselect.demo.example.entity.Teacher;
-import org.springframework.ui.Model;
+import com.multiselect.demo.example.repository.CourseRepository;
+import com.multiselect.demo.example.repository.DirectionRepository;
+import com.multiselect.demo.example.repository.TeacherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public interface TeacherService {
-    Teacher login(String id);
+@Service
+@Transactional
+public class TeacherService {
+    @Autowired
+    TeacherRepository tr;
+    @Autowired
+    DirectionRepository dr;
+    @Autowired
+    CourseRepository cr;
 
-    /**
-     * 获取全部方向
-     * @return
-     */
-    List<Direction> DireList();
+    public Teacher getTeacher(int tid) {
+        return tr.find(tid);
+    }
+    public List<Teacher> listTeacher() {
+        return tr.findAll();
+    }
+    public void setWeight(int did,int cid,double weight) {
+        Direction direction = dr.findById(did).orElse(null);
+        Course course = cr.findById(cid).orElse(null);
+        course.setWeight(weight);
+        course.setDirection(direction);
+    }
+    public void setThreshold(int tid, int threshold,int did) {
+        Direction direction = dr.findById(did).orElse(null);
+        Teacher teacher = getTeacher(tid);
+        direction.setTeacher(teacher);
+        direction.setThreshold(threshold);
+    }
 
-    /**
-     * 获取全部课程
-     * @return
-     */
-    List<Course> CourList();
-
-    /**
-     * 添加权重
-     * @param id
-     * @param cno
-     * @param weight
-     */
-    void updateWeight(int id, int cno, double weight);
-
-    /**
-     * 添加人数上限
-     * @param sum
-     * @param teacher
-     */
-    void updateSum(int sum,Teacher teacher);
-
-    /**
-     * 设定最低分
-     * @param threshold
-     * @param id id为方向的id，分数是方向和课程的属性
-     */
-    void updateThreshold(double threshold,int id);
 }
