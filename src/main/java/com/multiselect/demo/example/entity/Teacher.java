@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter@Setter
 @NoArgsConstructor
-@JsonIgnoreProperties({"courses", "students"})
+@JsonIgnoreProperties({"courses", "students","directions"})
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Teacher {
     @MapsId
     private User user;//依靠单向@OneToOne和@MapsId，与父表共享主键
     //人数上限
-    private int stuCap;
+    private Integer stuCap;
     //当前人数
     private int stuNum;
     //学生范围数(根据排名确定)

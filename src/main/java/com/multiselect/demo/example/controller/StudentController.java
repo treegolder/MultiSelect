@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/student/")
 public class StudentController {
     @Autowired
     private UserService us;
@@ -37,5 +37,4 @@ public class StudentController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"人数已满");
         return Map.of("student",s);
     }
-
 }

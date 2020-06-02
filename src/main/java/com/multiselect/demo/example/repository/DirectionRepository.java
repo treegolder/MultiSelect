@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DirectionRepository extends BaseRepository<Direction,Integer> {
-    @Modifying
+ /*   @Modifying
     @Query("update Direction dr set dr.threshold=:threshold where dr.id=:id")
-    int updateThreshold(@Param("threshold") double threshold, @Param("id") int id );
+    int updateThreshold(@Param("threshold") double threshold, @Param("id") int id );*/
+     Direction findByName(String name);
 }

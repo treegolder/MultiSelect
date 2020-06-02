@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TeacherRepository extends BaseRepository<Teacher,String> {
+public interface TeacherRepository extends BaseRepository<Teacher,Integer> {
 
 /*    @Modifying
     @Query("update Teacher t set t.sum=:newsum where t.id=:id")
