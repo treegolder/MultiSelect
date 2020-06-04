@@ -3,6 +3,7 @@ package com.multiselect.demo.example.service;
 import com.multiselect.demo.example.component.RequestComponent;
 import com.multiselect.demo.example.entity.*;
 import com.multiselect.demo.example.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 @Service
+@Slf4j
 @Transactional
 public class TeacherService {
     @Autowired
@@ -26,6 +28,8 @@ public class TeacherService {
     StudentRepository sr;
     @Autowired
     SCRepository scr;
+    @Autowired
+    UserService us;
 
     public Teacher getTeacher(int tid) {
         return tr.find(tid);
@@ -79,38 +83,44 @@ public class TeacherService {
     /*
         将每一个方向，为所有学生根据不同的权重排序（降序）
      */
-    public List<Map.Entry<Student, Double>> listStudent(int did) {
+    public List<Map.Entry<Integer, Double>> listStudent(int did) {
 
         Direction direction = getDirection(did);
         HashMap<Course,Double> courseMap = new HashMap<>();
-        TreeMap<Student,Double> studentMap = new TreeMap<>();
+        HashMap<Integer,Double> studentMap = new HashMap<>();
         for (Course c : direction.getCourses())
             if(c.getDirection() == direction)
                 courseMap.put(c,c.getWeight());
 
         Teacher t = getTeacher(rc.getUid());
-        for (Student s : t.getStudents()) {
+        for (Student s : us.listStudents()) {
             double sum = 0;
             for (SC sc : s.getSc()) {
-                if(courseMap.containsKey(sc.getCourse())) {
-                    Double aDouble = courseMap.get(sc.getCourse());
-                    sum += scr.findGradeByCourseName(sc.getCourse().getName(), s.getId())*aDouble;
+                Course course = cr.findByName(sc.getCourseName());
+                if(courseMap.containsKey(course)) {
+                    Double aDouble = courseMap.get(course);
+                    sum += scr.findScoreByCourseName(sc.getCourseName(), s.getId())*aDouble;
                 }
+                studentMap.put(s.getUser().getNumber(),sum);
             }
-            studentMap.put(s,sum);
         }
-        //将TreeMap按value排序，转成list
-        List<Map.Entry<Student, Double>> list = new ArrayList<Map.Entry<Student, Double>>(studentMap.entrySet());
-        Collections.sort(list,new Comparator<Map.Entry<Student,Double>>() {
+
+        List<Map.Entry<Integer, Double>> list = new ArrayList<>(studentMap.entrySet());
+        Collections.sort(list,new Comparator<Map.Entry<Integer,Double>>() {
             @Override
-            public int compare(Map.Entry<Student, Double> o1, Map.Entry<Student, Double> o2) {
+            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
                 //降序
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
+        for (Map.Entry s : list) {
+            log.debug("{}", s.getKey());
+        }
         return list;
     }
-
+    public Student getStudentByNumber(int number) {
+        return sr.findByNumber(number);
+    }
     public Integer setStuCap(Integer stuCap) {
         Teacher teacher = getTeacher(rc.getUid());
 

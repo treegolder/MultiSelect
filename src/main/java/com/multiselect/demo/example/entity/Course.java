@@ -25,8 +25,8 @@ public class Course {
 
     private double weight;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
-    private List<SC> studentCourses;
+    /*@OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    private List<SC> studentCourses;*/
 
     @ManyToOne
     private Direction direction;

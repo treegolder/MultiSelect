@@ -3,6 +3,7 @@ package com.multiselect.demo.example.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.sql.Update;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -16,12 +17,14 @@ public class SC {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Max(value = 100, message = "百分制成绩不能超过100分")
-    private double grade;
-    @ManyToOne
+    private double score;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Student student;
-    @ManyToOne
-    private Course course;
+   /* @ManyToOne(cascade =CascadeType.ALL)
+    private Course course;*/
 
+    private String courseName;
+    private  int number;
     @Column(columnDefinition = "timestamp default current_timestamp",
             insertable = false,
             updatable = false)

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SCRepository extends BaseRepository<SC,Integer>{
-    @Query("select sc.grade from SC sc where sc.course.name=:name AND sc.student.id=:sid")
-   Double findGradeByCourseName(@Param("name") String name, @Param("sid") int sid);
-
+    @Query("select sc.score from SC sc where sc.courseName=:name AND sc.student.id=:sid")
+   Double findScoreByCourseName(@Param("name") String name, @Param("sid") int sid);
 }
