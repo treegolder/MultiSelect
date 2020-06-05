@@ -131,12 +131,14 @@ public class TeacherService {
         return teacher.getStuCap();
     }
     public Student deleteStudent(int sid) {
-        List<Student> students = getTeacher(rc.getUid()).getStudents();
+        Teacher teacher = getTeacher(rc.getUid());
+        List<Student> students = teacher.getStudents();
         Student s = null;
         for (int i = 0; i < students.size(); i ++) {
              s = students.get(i);
             if (s.getId() == sid) {
-                sr.delete(s);
+                s.setTeacher(null);
+                teacher.setStuNum(teacher.getStuNum() - 1);
                 break;
             }
     }

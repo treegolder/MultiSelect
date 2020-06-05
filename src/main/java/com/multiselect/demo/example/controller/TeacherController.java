@@ -73,9 +73,9 @@ public class TeacherController {
     public Map listCourses(@PathVariable int did) {
       return Map.of("listCourses", ts.getDirection(did).getCourses());
     }
-    @PostMapping("students/{sid}/addstudent")
-    public Map postStudent(@PathVariable int sid) {
-       return Map.of("student",ts.addStudent(sid));
+    @PostMapping("addstudent")
+    public Map postStudent(@RequestBody Student student) {
+       return Map.of("student",ts.addStudent(student.getId()));
     }
     @GetMapping("directions/{did}/liststudents")
     public Map listStudent(@PathVariable int did) {
@@ -92,9 +92,9 @@ public class TeacherController {
         return Map.of("students", students,
                       "studentsScore",scores);
     }
-    @PostMapping("deletestudent/students/{sid}")
-    public Map deleteStudent(@PathVariable int sid) {
-        return Map.of("student", ts.deleteStudent(sid));
+    @PostMapping("delStudent")
+    public Map deleteStudent(@RequestBody Student student) {
+        return Map.of("student", ts.deleteStudent(student.getId()));
     }
     @GetMapping("liststudent")
     public Map listStudent() {
@@ -112,7 +112,7 @@ public class TeacherController {
     }
     @GetMapping("getstunum")
     public Map getStuNum() {
-        return Map.of("stuNum", ts.getTeacher(rc.getUid()).getStuNum());
+        return Map.of("stuNum", ts.getTeacher(rc.getUid()).getStuCap() - ts.getTeacher(rc.getUid()).getStuNum());
     }
     @PostMapping("importUser")
     public void addUser(@RequestBody String users) {
