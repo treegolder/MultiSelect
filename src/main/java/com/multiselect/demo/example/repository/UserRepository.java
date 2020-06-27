@@ -14,5 +14,4 @@ public interface UserRepository extends BaseRepository<User,Integer> {
 
     @Query("from User u where u.number=:number ")
     User find(@Param("number") int number);
-
 }

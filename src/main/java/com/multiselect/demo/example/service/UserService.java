@@ -3,7 +3,12 @@ package com.multiselect.demo.example.service;
 import com.multiselect.demo.example.entity.*;
 import com.multiselect.demo.example.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +19,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     UserRepository ur;
+
     @Autowired
     TeacherRepository tr;
     @Autowired
@@ -24,6 +30,7 @@ public class UserService {
     CourseRepository cr;
     @Autowired
     private PasswordEncoder encoder;
+
 
     public User getUser(int number) {
        return ur.find(number);
@@ -40,6 +47,7 @@ public class UserService {
     public Student getStudent(int sid) {
         return sr.find(sid);
     }
+
     public List<Student> listStudents() {
         return sr.findAll();
     }

@@ -9,10 +9,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 //系统初始化之后调用该组件
 @Component
 @Slf4j
+@Transactional
 public class InitComponent implements InitializingBean {
     @Autowired
     private PasswordEncoder encoder;
@@ -30,6 +32,8 @@ public class InitComponent implements InitializingBean {
             u.setRole(User.Role.TEACHER);
             u.setPassword(encoder.encode(String.valueOf(number)));
             Teacher t = new Teacher();
+            t.setStuCap(0);
+            t.setStuNum(0);
             //级联持久化
             t.setUser(u);
             userService.addTeacher(t);

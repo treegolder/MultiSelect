@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,9 +24,11 @@ public class Teacher {
     @MapsId
     private User user;//依靠单向@OneToOne和@MapsId，与父表共享主键
     //人数上限
+    @Min(value = 0)
     private Integer stuCap;
     //当前人数
-    private int stuNum;
+    @Min(value = 0)
+    private Integer stuNum;
     //学生范围数(根据排名确定)
     private int scope;
 

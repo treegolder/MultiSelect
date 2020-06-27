@@ -96,7 +96,7 @@ public class TeacherController {
     public Map deleteStudent(@RequestBody Student student) {
         return Map.of("student", ts.deleteStudent(student.getId()));
     }
-    @GetMapping("liststudent")
+    @GetMapping("liststudents")
     public Map listStudent() {
         return Map.of("listStudents",ts.getTeacher(rc.getUid()).getStudents());
     }
