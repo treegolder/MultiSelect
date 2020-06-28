@@ -55,11 +55,13 @@ public class StudentController {
         if(teacher.getStuNum() < teacher.getStuCap()) {
             s = ss.getStudent(requestComponent.getUid());
             s.setTeacher(teacher);
+            teacher.setStuNum(teacher.getStuNum() - 1);
         }else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"人数已满");
         if (s.getDirection() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"请先选择方向");
-
+        
+        ts.saveTeacher(teacher);
         ss.saveStudent(s);
         return Map.of("teacher",teacher);
     }

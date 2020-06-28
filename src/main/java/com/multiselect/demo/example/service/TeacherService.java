@@ -79,6 +79,9 @@ public class TeacherService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "可选人数已达上限");
         return student;
     }
+    public void saveTeacher(Teacher t) {
+        tr.save(t);
+    }
 
     /*
         将每一个方向，为所有学生根据不同的权重排序（降序）
